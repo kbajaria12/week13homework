@@ -1,7 +1,18 @@
 import time
 from splinter import Browser
 from bs4 import BeautifulSoup
+<<<<<<< HEAD
 import pandas as pd
+=======
+from selenium import webdriver
+import pandas as pd
+from flask import Flask, render_template, jsonify, redirect
+from flask_pymongo import PyMongo
+
+app = Flask(__name__)
+mongo = PyMongo(app)
+
+>>>>>>> 6b55f32cdec32ae98f31dd02beb9b85856006a68
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
@@ -93,6 +104,12 @@ def scrape():
     
     mars_data["Hemisphere Images"]=hemisphere_image_urls
     
+<<<<<<< HEAD
     browser.quit()
     
     return(mars_data)
+=======
+    return(mars_data)
+
+    browser.quit()
+>>>>>>> 6b55f32cdec32ae98f31dd02beb9b85856006a68

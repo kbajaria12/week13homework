@@ -1,9 +1,8 @@
 import time
 from splinter import Browser
 from bs4 import BeautifulSoup
-<<<<<<< HEAD
 import pandas as pd
-=======
+
 from selenium import webdriver
 import pandas as pd
 from flask import Flask, render_template, jsonify, redirect
@@ -11,8 +10,6 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 mongo = PyMongo(app)
-
->>>>>>> 6b55f32cdec32ae98f31dd02beb9b85856006a68
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
@@ -39,11 +36,11 @@ def scrape():
     # get the title text
     item_title = news_item.find("div", {"class": "content_title"})
     item_title_text = item_title.find("a").getText()
-    mars_data["News Headline"]=item_title_text
+    mars_data["NewsHeadline"]=item_title_text
 
     # get the item paragraph
     item_para_text = news_item.find("div", {"class": "article_teaser_body"}).getText()
-    mars_data["News Body"]=item_para_text
+    mars_data["NewsBody"]=item_para_text
 
     # visit www.jpl.nasa.gov
     mars_jpl_url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
@@ -56,8 +53,9 @@ def scrape():
     article=soup.find("article", {"class": "carousel_item"})
       
     #find featured image url
-    featured_image_url=article.find("a", {"class": "button fancybox"})['data-fancybox-href']
-    mars_data["Featured Image URL"]=featured_image_url
+    featured_image_uri=article.find("a", {"class": "button fancybox"})['data-fancybox-href']
+    featured_image_url="https://www.jpl.nasa.gov"+featured_image_uri
+    mars_data["FeaturedImageURL"]=featured_image_url
         
     # visit twitter.com
     mars_weather_url = "https://twitter.com/marswxreport?lang=en"
@@ -68,7 +66,7 @@ def scrape():
     # create a soup object from the html
     soup = BeautifulSoup(html, "html.parser")
     mars_weather=soup.find("p", {"class": "TweetTextSize TweetTextSize--normal js-tweet-text tweet-text"}).getText()
-    mars_data["Mars Weather"]=mars_weather
+    mars_data["MarsWeather"]=mars_weather
  
     # visit space-facts.com/mars/
     mars_facts_url = "https://space-facts.com/mars/"
@@ -93,7 +91,7 @@ def scrape():
         
     # Convert df to html table
     MarsFactsHTML = dfMarsFacts.to_html()
-    mars_data["Facts HTML"]=MarsFactsHTML
+    mars_data["FactsHTML"]=MarsFactsHTML
     
     hemisphere_image_urls = [
         {"title": "Valles Marineris Hemisphere", "img_url": "https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/valles_marineris_enhanced.tif/full.jpg"},
@@ -102,14 +100,10 @@ def scrape():
         {"title": "Syrtis Major Hemisphere", "img_url": "https://astropedia.astrogeology.usgs.gov/download/Mars/Viking/syrtis_major_enhanced.tif/full.jpg"},
         ]
     
-    mars_data["Hemisphere Images"]=hemisphere_image_urls
+    mars_data["HemisphereImages"]=hemisphere_image_urls
     
-<<<<<<< HEAD
     browser.quit()
     
-    return(mars_data)
-=======
     return(mars_data)
 
     browser.quit()
->>>>>>> 6b55f32cdec32ae98f31dd02beb9b85856006a68
